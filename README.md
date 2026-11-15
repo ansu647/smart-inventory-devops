@@ -9,7 +9,7 @@
 | :--- | :--- | :--- | :--- |
 | **🚀 Production Live Application** | **[http://54.90.251.219/](http://54.90.251.219/)** | HTTP : 80 | **Active & Live** |
 | **🩺 Healthcheck & Probe Endpoint** | **[http://54.90.251.219/health](http://54.90.251.219/health)** | HTTP : 80 | **HTTP 200 (Healthy)** |
-| **⚙️ Jenkins CI/CD Dashboard** | **[http://54.90.251.219:8080/job/Smart-Inventory-CICD/](http://54.90.251.219:8080/job/Smart-Inventory-CICD/)** | HTTP : 8080 | **Active (Credentials: `admin` / `Admin@123456`)** |
+| **⚙️ Jenkins CI/CD Dashboard** | **[http://54.90.251.219:8080/job/Smart-Inventory-CICD/](http://54.90.251.219:8080/job/Smart-Inventory-CICD/)** | HTTP : 8080 | **Active (Credentials: `admin` / `Admin@123`)** |
 | **🔄 Real-Time GitHub Webhook** | `http://54.90.251.219:8080/github-webhook/` | POST / 8080 | **Connected (Triggers build on push)** |
 | **📦 GitHub Source Repository** | **[https://github.com/ansu647/smart-inventory-devops](https://github.com/ansu647/smart-inventory-devops)** | HTTPS / 443 | **Tracked `main` branch** |
 
