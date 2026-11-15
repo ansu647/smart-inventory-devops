@@ -72,53 +72,6 @@ AWS EC2 Live Public Endpoint (http://54.90.251.219/)
 
 ---
 
-## 🎓 Faculty Demonstration Guide
-
-To present this DevOps project to faculty, follow this step-by-step walkthrough:
-
-1. **Live Application Navigation**:
-   - Open the live URL: `http://54.90.251.219/` in any external browser.
-   - Demonstrate the responsive sidebar, top navigation, and live system status pill.
-2. **Review Dashboard Statistics**:
-   - Point out real-time aggregated metrics: Total Products, Available Units, Low Stock Alerts, and Inventory Valuation.
-3. **Add a Product**:
-   - Navigate to **Add Product** (`/products/add`).
-   - Enter a sample product (e.g., `MacBook Air M3`, Category: `Electronics`, Price: `₹89,900`, Quantity: `10`, Min Stock: `3`).
-   - Click **Save Product** and demonstrate instant persistence in the catalog table with Indian Rupee formatting.
-4. **Demonstrate Stock Out & Negative Quantity Prevention**:
-   - Go to **Stock In / Out** (`/stock`).
-   - Select the newly created product. Select **Stock OUT**, input `999` units, and click **Confirm Stock Out**.
-   - Show that the system cleanly blocks the transaction with an alert: `Stock cannot be negative`.
-   - Dispatch a valid amount (e.g. `8` units). Show that available stock reduces to `2` units.
-5. **Show Low Stock Alert Trigger**:
-   - Since available stock (`2`) is below the minimum threshold (`3`), navigate to **Low Stock** (`/low-stock`).
-   - Show the dynamic warning badge, deficit calculation (`+1 needed`), and the status indicator.
-6. **Show GitHub Repository**:
-   - Open `https://github.com/ansu647/smart-inventory-devops`.
-   - Show clean repository structure, zero vulnerable files/credentials, `Dockerfile`, `Jenkinsfile`, and passing test suite.
-7. **Trigger Real-Time CI/CD Pipeline via Git Push**:
-   - On the workstation terminal, make an update and push:
-     ```bash
-     git commit -am "chore: real-time CI/CD verification"
-     git push origin main
-     ```
-8. **Demonstrate Jenkins Pipeline Execution in Real Time**:
-   - Open Jenkins (`http://54.90.251.219:8080/job/Smart-Inventory-CICD/`).
-   - Show Jenkins instantly detecting the push via the **GitHub Webhook** (`/github-webhook/`).
-   - Show all 5 pipeline stages completing with green checkmarks:
-     - Stage 1: Checkout Source
-     - Stage 2: Pytest Suite Execution (20 passed)
-     - Stage 3: Docker Build (`smart-inventory:${BUILD_NUMBER}`)
-     - Stage 4: Container Deployment (Zero-downtime container swap with persistent volume)
-     - Stage 5: Health Check Verification (`/health` HTTP 200)
-9. **Verify Zero-Downtime Live Update on Public Endpoint**:
-   - Refresh the public URL `http://54.90.251.219/`. Show the newly deployed build live.
-10. **Demonstrate SQLite Database Persistence**:
-    - On the EC2 terminal, run `docker restart smart-inventory-app` (or simulate container recreation).
-    - Refresh the browser: show that all products, transactions, and stock history remain completely intact due to the Docker named volume mount (`inventory_data:/data`).
-
----
-
 ## 🔒 Production Security & Cleanliness Audit
 
 A comprehensive security and repository cleanliness audit has been conducted to ensure the project meets strict enterprise deployment criteria:
