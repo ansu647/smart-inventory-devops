@@ -1,0 +1,54 @@
+# Python virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest / coverage cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local SQLite databases & runtime data
+instance/*.db
+instance/*.sqlite
+instance/*.sqlite3
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment files and credentials
+.env
+.env.*
+!.env.example
+aws_credentials
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
