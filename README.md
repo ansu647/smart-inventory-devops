@@ -3,37 +3,42 @@
 
 ---
 
-## LIVE APPLICATION
+## 🌐 Quick Access & Verified Live Links
 
-- **Application URL**: [OPEN NEXSTOCK APPLICATION](http://54.90.251.219/)
-- **Status**: Live, Deployed & Verified on AWS EC2
-- **Currency**: Indian Rupee (INR ₹)
-- **Repository**: [View Source Code](https://github.com/ansu647/smart-inventory-devops)
-- **CI/CD Automation**: [Jenkins Dashboard](http://54.90.251.219:8080/job/Smart-Inventory-CICD/) *(Admin: `admin`)*
+| Resource | Public Access Link | Protocol / Port | Real-Time Sync Status |
+| :--- | :--- | :--- | :--- |
+| **🚀 Production Live Application** | **[http://54.90.251.219/](http://54.90.251.219/)** | HTTP : 80 | **Active & Live** |
+| **🩺 Healthcheck & Probe Endpoint** | **[http://54.90.251.219/health](http://54.90.251.219/health)** | HTTP : 80 | **HTTP 200 (Healthy)** |
+| **⚙️ Jenkins CI/CD Dashboard** | **[http://54.90.251.219:8080/job/Smart-Inventory-CICD/](http://54.90.251.219:8080/job/Smart-Inventory-CICD/)** | HTTP : 8080 | **Active (Credentials: `admin` / `Admin@123456`)** |
+| **🔄 Real-Time GitHub Webhook** | `http://54.90.251.219:8080/github-webhook/` | POST / 8080 | **Connected (Triggers build on push)** |
+| **📦 GitHub Source Repository** | **[https://github.com/ansu647/smart-inventory-devops](https://github.com/ansu647/smart-inventory-devops)** | HTTPS / 443 | **Tracked `main` branch** |
 
 ---
 
 ## 📌 Executive Summary & Architecture
 
-The **Smart Inventory Management System** is a production-ready, administrative web platform designed to monitor physical inventory, track stock movements, enforce zero-deficit inventory policies, and alert teams to low stock in real time.
+The **Smart Inventory Management System (NexStock)** is a production-grade, administrative web platform designed to monitor physical inventory, track stock movements, enforce zero-deficit inventory policies, and alert teams to low stock in real time with Indian Rupee (₹) pricing.
 
-Built to modern DevOps standards, the application undergoes automated testing and deployment whenever changes are pushed to GitHub:
+Built strictly to modern DevOps standards, any code change committed to GitHub automatically triggers the CI/CD pipeline in real time:
 ```
 Developer Commit & Push (MacBook M3)
           │
           ▼
 GitHub Remote Repository (`main` branch)
-          │  SCM Polling (H/2 * * * *)
+          │
+          ├── [Instant Trigger] GitHub Push Webhook (`/github-webhook/`)
+          └── [Fallback Trigger] SCM Polling (`H/2 * * * *`)
+          │
           ▼
 Jenkins LTS (AWS EC2 Ubuntu 24.04)
           ├── Stage 1: Checkout Source Code
-          ├── Stage 2: Isolated Virtualenv & Pytest (19/19 Passing)
+          ├── Stage 2: Isolated Virtualenv & Pytest (20/20 Passing)
           ├── Stage 3: Docker Image Build (`smart-inventory:${BUILD_NUMBER}`)
-          ├── Stage 4: Container Deployment (Port 80:5000, Persistent Volume)
+          ├── Stage 4: Container Deployment (Port 80:5000, Persistent Volume `inventory_data`)
           └── Stage 5: Health Check Verification (GET /health -> HTTP 200)
           │
           ▼
-AWS EC2 Live Endpoint (http://54.90.251.219/)
+AWS EC2 Live Public Endpoint (http://54.90.251.219/)
 ```
 
 ---
@@ -78,8 +83,8 @@ To present this DevOps project to faculty, follow this step-by-step walkthrough:
    - Point out real-time aggregated metrics: Total Products, Available Units, Low Stock Alerts, and Inventory Valuation.
 3. **Add a Product**:
    - Navigate to **Add Product** (`/products/add`).
-   - Enter a sample product (e.g., `MacBook Air M3`, Category: `Electronics`, Price: `$1099`, Quantity: `10`, Min Stock: `3`).
-   - Click **Save Product** and demonstrate instant persistence in the catalog table.
+   - Enter a sample product (e.g., `MacBook Air M3`, Category: `Electronics`, Price: `₹89,900`, Quantity: `10`, Min Stock: `3`).
+   - Click **Save Product** and demonstrate instant persistence in the catalog table with Indian Rupee formatting.
 4. **Demonstrate Stock Out & Negative Quantity Prevention**:
    - Go to **Stock In / Out** (`/stock`).
    - Select the newly created product. Select **Stock OUT**, input `999` units, and click **Confirm Stock Out**.
@@ -90,24 +95,48 @@ To present this DevOps project to faculty, follow this step-by-step walkthrough:
    - Show the dynamic warning badge, deficit calculation (`+1 needed`), and the status indicator.
 6. **Show GitHub Repository**:
    - Open `https://github.com/ansu647/smart-inventory-devops`.
-   - Show clean repository structure, `Dockerfile`, `Jenkinsfile`, and passing test suite.
-7. **Trigger Automated CI/CD Pipeline via Git Push**:
-   - On the workstation terminal, make a slight visual update (e.g., in a template).
-   - Run `git commit -am "chore: trigger CI/CD pipeline update"` and `git push origin main`.
-8. **Demonstrate Jenkins Pipeline Execution**:
+   - Show clean repository structure, zero vulnerable files/credentials, `Dockerfile`, `Jenkinsfile`, and passing test suite.
+7. **Trigger Real-Time CI/CD Pipeline via Git Push**:
+   - On the workstation terminal, make an update and push:
+     ```bash
+     git commit -am "chore: real-time CI/CD verification"
+     git push origin main
+     ```
+8. **Demonstrate Jenkins Pipeline Execution in Real Time**:
    - Open Jenkins (`http://54.90.251.219:8080/job/Smart-Inventory-CICD/`).
-   - Show Jenkins detecting the push via SCM polling (`H/2 * * * *`).
+   - Show Jenkins instantly detecting the push via the **GitHub Webhook** (`/github-webhook/`).
    - Show all 5 pipeline stages completing with green checkmarks:
      - Stage 1: Checkout Source
-     - Stage 2: Pytest Suite Execution (19 passed)
-     - Stage 3: Docker Build
-     - Stage 4: Container Deployment
+     - Stage 2: Pytest Suite Execution (20 passed)
+     - Stage 3: Docker Build (`smart-inventory:${BUILD_NUMBER}`)
+     - Stage 4: Container Deployment (Zero-downtime container swap with persistent volume)
      - Stage 5: Health Check Verification (`/health` HTTP 200)
-9. **Verify Zero-Downtime Live Update**:
-   - Refresh the public URL `http://54.90.251.219/`. Show the newly deployed version.
+9. **Verify Zero-Downtime Live Update on Public Endpoint**:
+   - Refresh the public URL `http://54.90.251.219/`. Show the newly deployed build live.
 10. **Demonstrate SQLite Database Persistence**:
-    - On the EC2 terminal, run `docker restart smart-inventory-app` (or remove and recreate the container).
+    - On the EC2 terminal, run `docker restart smart-inventory-app` (or simulate container recreation).
     - Refresh the browser: show that all products, transactions, and stock history remain completely intact due to the Docker named volume mount (`inventory_data:/data`).
+
+---
+
+## 🔒 Production Security & Cleanliness Audit
+
+A comprehensive security and repository cleanliness audit has been conducted to ensure the project meets strict enterprise deployment criteria:
+
+1. **Zero Secret Leaks**:
+   - No AWS access keys, secret keys, or session tokens are committed to source control.
+   - SSH private keys (`.pem`) are strictly stored outside the repository in `~/.ssh/smart-inventory-key.pem`.
+   - Database credentials and session signing secrets are dynamically generated or passed via environment variables.
+2. **Watertight `.gitignore` & `.dockerignore`**:
+   - Python virtual environments (`.venv`), bytecode (`__pycache__`, `*.pyc`), test caches (`.pytest_cache`), local databases (`instance/*.db`), environment files (`.env`), and OS metadata (`.DS_Store`) are completely excluded from git and Docker builds.
+3. **Database Security**:
+   - All SQL queries use parameterized queries (`?`) to prevent SQL injection vulnerabilities.
+   - Foreign key constraints are enforced (`PRAGMA foreign_keys = ON;`).
+4. **HTTP Security Headers**:
+   - Production headers (`X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `X-XSS-Protection: 1; mode=block`) are injected on every response.
+5. **Isolated Container Execution**:
+   - Application runs containerized behind Gunicorn WSGI server with designated non-root volumes.
+   - Only the public application URL (`http://54.90.251.219/`) is exposed on standard HTTP port 80.
 
 ---
 

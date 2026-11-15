@@ -43,6 +43,14 @@ def test_health_check(client):
     assert json_data['database'] == 'connected'
 
 
+def test_security_headers(client):
+    """Test response contains standard production security headers."""
+    response = client.get('/')
+    assert response.headers.get('X-Content-Type-Options') == 'nosniff'
+    assert response.headers.get('X-Frame-Options') == 'SAMEORIGIN'
+    assert response.headers.get('X-XSS-Protection') == '1; mode=block'
+
+
 def test_dashboard_route(client):
     """Test dashboard loads with status 200 and renders KPI metrics."""
     response = client.get('/')

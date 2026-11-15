@@ -11,7 +11,9 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
     app.config.from_mapping(
-        SECRET_KEY=os.environ.get('SECRET_KEY', 'dev-secret-key-smart-inventory-2026'),
+        SECRET_KEY=os.environ.get('SECRET_KEY') or (
+            os.urandom(24).hex() if os.environ.get('FLASK_ENV') == 'production' else 'dev-secret-key-smart-inventory-2026'
+        ),
         DATABASE_PATH=database.get_db_path()
     )
 
@@ -34,6 +36,16 @@ def create_app(test_config=None):
         # Seed sample data if not in test mode or if requested
         if not app.config.get('TESTING'):
             database.seed_sample_data(target_db)
+
+    # -------------------------------------------------------------
+    # Production Security Headers
+    # -------------------------------------------------------------
+    @app.after_request
+    def set_security_headers(response):
+        response.headers['X-Content-Type-Options'] = 'nosniff'
+        response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+        response.headers['X-XSS-Protection'] = '1; mode=block'
+        return response
 
     # -------------------------------------------------------------
     # Context Processor for common navbar badges / stats

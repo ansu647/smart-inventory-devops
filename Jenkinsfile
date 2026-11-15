@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+        pollSCM('H/2 * * * *')
+    }
+
     environment {
         IMAGE_NAME = 'smart-inventory'
         CONTAINER_NAME = 'smart-inventory-app'
