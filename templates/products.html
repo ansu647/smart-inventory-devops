@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Products Catalog | Smart Inventory System{% endblock %}
+{% block title %}Product Inventory | NexStock Enterprise{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-3 mb-3 border-bottom">
     <div>
-        <h1 class="h2 fw-bold text-dark mb-1">Product Inventory</h1>
-        <p class="text-muted small mb-0">Manage, search, and audit product catalog items in SQLite database.</p>
+        <h1 class="h3 fw-bold text-dark mb-1">Product Inventory</h1>
+        <p class="text-muted small mb-0">Search, filter, categorize, and manage items in your SQLite database in real time.</p>
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
         <a href="{{ url_for('add_product') }}" class="btn btn-primary d-flex align-items-center shadow-sm">
@@ -15,21 +15,24 @@
     </div>
 </div>
 
-<!-- Search, Filter & Sort Bar -->
+<!-- Search, Filter & Sort Toolbar -->
 <div class="card border-0 shadow-sm mb-4">
-    <div class="card-body">
-        <form method="GET" action="{{ url_for('products') }}" class="row g-2 align-items-center">
+    <div class="card-body p-3">
+        <form method="GET" action="{{ url_for('products') }}" id="filterForm" class="row g-2 align-items-center">
             <!-- Search Text -->
-            <div class="col-md-4">
+            <div class="col-lg-4 col-md-6">
                 <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
-                    <input type="text" name="q" class="form-control border-start-0 ps-0" placeholder="Search by name or category..." value="{{ search_query }}">
+                    <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                    <input type="text" id="productSearchInput" name="q" class="form-control border-start-0 ps-0" placeholder="Type to search name, category, or ID..." value="{{ search_query }}" autocomplete="off">
+                    {% if search_query %}
+                    <a href="{{ url_for('products') }}" class="input-group-text bg-light text-muted text-decoration-none" title="Clear search">&times;</a>
+                    {% endif %}
                 </div>
             </div>
 
             <!-- Category Filter -->
-            <div class="col-md-3">
-                <select name="category" class="form-select">
+            <div class="col-lg-3 col-md-6">
+                <select name="category" id="categorySelect" class="form-select">
                     <option value="">All Categories</option>
                     {% for cat in categories %}
                     <option value="{{ cat }}" {% if category_filter == cat %}selected{% endif %}>{{ cat }}</option>
@@ -38,10 +41,10 @@
             </div>
 
             <!-- Sort By -->
-            <div class="col-md-2">
-                <select name="sort" class="form-select">
+            <div class="col-lg-2 col-md-4">
+                <select name="sort" id="sortSelect" class="form-select">
                     <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Sort by Name</option>
-                    <option value="price" {% if sort_by == 'price' %}selected{% endif %}>Sort by Price</option>
+                    <option value="price" {% if sort_by == 'price' %}selected{% endif %}>Sort by Price (₹)</option>
                     <option value="quantity" {% if sort_by == 'quantity' %}selected{% endif %}>Sort by Stock</option>
                     <option value="id" {% if sort_by == 'id' %}selected{% endif %}>Sort by ID</option>
                     <option value="created_at" {% if sort_by == 'created_at' %}selected{% endif %}>Sort by Date</option>
@@ -49,20 +52,20 @@
             </div>
 
             <!-- Sort Order -->
-            <div class="col-md-2">
-                <select name="order" class="form-select">
+            <div class="col-lg-2 col-md-4">
+                <select name="order" id="orderSelect" class="form-select">
                     <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>Ascending (&uarr;)</option>
                     <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Descending (&darr;)</option>
                 </select>
             </div>
 
-            <!-- Filter Buttons -->
-            <div class="col-md-1 d-flex gap-1">
-                <button type="submit" class="btn btn-secondary w-100" title="Apply Filters">
-                    <i class="bi bi-funnel"></i>
+            <!-- Action Buttons -->
+            <div class="col-lg-1 col-md-4 d-flex gap-1">
+                <button type="submit" class="btn btn-primary w-100 d-flex justify-content-center align-items-center" title="Apply Filter">
+                    <i class="bi bi-funnel-fill me-1"></i> <span class="d-md-none d-lg-inline">Filter</span>
                 </button>
                 {% if search_query or category_filter or sort_by != 'name' or sort_order != 'asc' %}
-                <a href="{{ url_for('products') }}" class="btn btn-outline-danger" title="Clear Filters">
+                <a href="{{ url_for('products') }}" class="btn btn-outline-danger" title="Clear All Filters">
                     <i class="bi bi-x-lg"></i>
                 </a>
                 {% endif %}
@@ -73,17 +76,19 @@
 
 <!-- Products Table Card -->
 <div class="card border-0 shadow-sm">
-    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center border-bottom">
         <h5 class="card-title fw-bold mb-0 text-dark">
-            <i class="bi bi-boxes me-2 text-primary"></i> Product Catalog 
-            <span class="badge bg-secondary-subtle text-secondary fs-8 ms-2">{{ products|length }} item(s)</span>
+            <i class="bi bi-boxes me-2 text-primary"></i> Product Catalog
+            <span class="badge bg-primary-subtle text-primary fs-8 ms-2" id="itemCountBadge">{{ products|length }} item(s)</span>
         </h5>
+        <div class="d-none d-md-block text-muted fs-8">
+            <i class="bi bi-lightning-charge text-warning"></i> Real-time search & sorting active
+        </div>
     </div>
     <div class="card-body p-0">
-        {% if products %}
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light fs-8 text-uppercase">
+            <table class="table table-hover align-middle mb-0" id="productsTable">
+                <thead>
                     <tr>
                         <th class="ps-3" style="width: 70px;">ID</th>
                         <th>Product Name</th>
@@ -95,15 +100,21 @@
                         <th class="text-end pe-3">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="productsTableBody">
                     {% for p in products %}
-                    <tr>
+                    <tr class="product-row" 
+                        data-id="{{ p.id }}" 
+                        data-name="{{ p.name|lower }}" 
+                        data-category="{{ p.category }}" 
+                        data-price="{{ p.price }}" 
+                        data-quantity="{{ p.quantity }}" 
+                        data-date="{{ p.created_at }}">
                         <td class="ps-3 fw-bold text-muted">#{{ p.id }}</td>
                         <td>
-                            <span class="fw-semibold text-dark">{{ p.name }}</span>
+                            <span class="fw-semibold text-dark product-name">{{ p.name }}</span>
                         </td>
                         <td>
-                            <span class="badge bg-secondary-subtle text-secondary">{{ p.category }}</span>
+                            <span class="badge bg-secondary-subtle text-secondary product-category">{{ p.category }}</span>
                         </td>
                         <td class="fw-semibold text-dark currency-inr">₹{{ "%.2f"|format(p.price) }}</td>
                         <td>
@@ -159,11 +170,22 @@
                 </tbody>
             </table>
         </div>
-        {% else %}
+
+        <!-- Dynamic Client-Side Empty State Alert (shown when live filter yields 0 matches) -->
+        <div id="noMatchMessage" class="p-5 text-center text-muted" style="display: none;">
+            <i class="bi bi-search fs-1 d-block mb-3 text-secondary"></i>
+            <h5>No matching products found</h5>
+            <p class="mb-3 text-secondary">No items match your active search and category filters.</p>
+            <button type="button" id="resetLiveFiltersBtn" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Search & Filters
+            </button>
+        </div>
+
+        {% if not products %}
         <div class="p-5 text-center text-muted">
             <i class="bi bi-search fs-1 d-block mb-3 text-secondary"></i>
             <h5>No matching products found</h5>
-            <p class="mb-3">Try adjusting your search criteria, category filters, or add a new product.</p>
+            <p class="mb-3">Try adjusting your search criteria or add a new product.</p>
             <a href="{{ url_for('add_product') }}" class="btn btn-primary btn-sm">
                 <i class="bi bi-plus-lg me-1"></i> Add New Product
             </a>
@@ -174,3 +196,114 @@
 </div>
 {% endblock %}
 
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('productSearchInput');
+    const categorySelect = document.getElementById('categorySelect');
+    const sortSelect = document.getElementById('sortSelect');
+    const orderSelect = document.getElementById('orderSelect');
+    const tableBody = document.getElementById('productsTableBody');
+    const rows = Array.from(document.querySelectorAll('.product-row'));
+    const itemCountBadge = document.getElementById('itemCountBadge');
+    const noMatchMessage = document.getElementById('noMatchMessage');
+    const resetBtn = document.getElementById('resetLiveFiltersBtn');
+    const filterForm = document.getElementById('filterForm');
+
+    function applyLiveFilters() {
+        const query = searchInput.value.toLowerCase().trim();
+        const selectedCategory = categorySelect.value.trim();
+        const sortBy = sortSelect.value;
+        const sortOrder = orderSelect.value;
+
+        let visibleCount = 0;
+
+        // 1. Filter rows
+        rows.forEach(row => {
+            const name = row.getAttribute('data-name') || '';
+            const category = row.getAttribute('data-category') || '';
+            const id = row.getAttribute('data-id') || '';
+
+            const matchesQuery = !query || name.includes(query) || category.toLowerCase().includes(query) || id.includes(query.replace('#', ''));
+            const matchesCategory = !selectedCategory || category === selectedCategory;
+
+            if (matchesQuery && matchesCategory) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // 2. Sort rows
+        const sortedRows = rows.slice().sort((a, b) => {
+            let valA, valB;
+
+            if (sortBy === 'price') {
+                valA = parseFloat(a.getAttribute('data-price')) || 0;
+                valB = parseFloat(b.getAttribute('data-price')) || 0;
+            } else if (sortBy === 'quantity') {
+                valA = parseInt(a.getAttribute('data-quantity'), 10) || 0;
+                valB = parseInt(b.getAttribute('data-quantity'), 10) || 0;
+            } else if (sortBy === 'id') {
+                valA = parseInt(a.getAttribute('data-id'), 10) || 0;
+                valB = parseInt(b.getAttribute('data-id'), 10) || 0;
+            } else if (sortBy === 'created_at') {
+                valA = a.getAttribute('data-date') || '';
+                valB = b.getAttribute('data-date') || '';
+            } else { // name
+                valA = a.getAttribute('data-name') || '';
+                valB = b.getAttribute('data-name') || '';
+            }
+
+            if (valA < valB) return sortOrder === 'desc' ? 1 : -1;
+            if (valA > valB) return sortOrder === 'desc' ? -1 : 1;
+            return 0;
+        });
+
+        // Re-append in sorted order
+        sortedRows.forEach(row => tableBody.appendChild(row));
+
+        // 3. Update counter and empty message
+        if (itemCountBadge) {
+            itemCountBadge.textContent = `${visibleCount} item(s)`;
+        }
+
+        if (noMatchMessage) {
+            noMatchMessage.style.display = (visibleCount === 0 && rows.length > 0) ? 'block' : 'none';
+        }
+    }
+
+    // Attach instant real-time event listeners
+    if (searchInput) {
+        searchInput.addEventListener('input', applyLiveFilters);
+        searchInput.addEventListener('keyup', applyLiveFilters);
+    }
+
+    if (categorySelect) {
+        categorySelect.addEventListener('change', applyLiveFilters);
+    }
+
+    if (sortSelect) {
+        sortSelect.addEventListener('change', applyLiveFilters);
+    }
+
+    if (orderSelect) {
+        orderSelect.addEventListener('change', applyLiveFilters);
+    }
+
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            if (searchInput) searchInput.value = '';
+            if (categorySelect) categorySelect.value = '';
+            if (sortSelect) sortSelect.value = 'name';
+            if (orderSelect) orderSelect.value = 'asc';
+            applyLiveFilters();
+        });
+    }
+
+    // Run initial filter on load if params present
+    applyLiveFilters();
+});
+</script>
+{% endblock %}

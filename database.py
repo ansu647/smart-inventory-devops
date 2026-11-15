@@ -123,24 +123,26 @@ def get_all_products(db_path=None, search=None, category=None, sort_by='name', s
         query = "SELECT * FROM products WHERE 1=1"
         params = []
 
-        if search:
-            query += " AND (name LIKE ? OR category LIKE ?)"
-            search_term = f"%{search.strip()}%"
-            params.extend([search_term, search_term])
+        if search and search.strip():
+            cleaned_search = search.strip().lstrip('#')
+            query += " AND (name LIKE ? OR category LIKE ? OR CAST(id AS TEXT) LIKE ?)"
+            search_term = f"%{cleaned_search}%"
+            params.extend([search_term, search_term, search_term])
 
-        if category and category != 'All':
+        if category and category.strip() and category.strip() != 'All':
             query += " AND category = ?"
-            params.append(category)
+            params.append(category.strip())
 
+        # Allowed sorting fields with case-insensitive string collation
         allowed_sort_fields = {
             'id': 'id',
-            'name': 'name',
-            'category': 'category',
+            'name': 'LOWER(name)',
+            'category': 'LOWER(category)',
             'price': 'price',
             'quantity': 'quantity',
             'created_at': 'created_at'
         }
-        sort_column = allowed_sort_fields.get(sort_by, 'name')
+        sort_column = allowed_sort_fields.get(sort_by, 'LOWER(name)')
         order_direction = 'DESC' if str(sort_order).lower() == 'desc' else 'ASC'
 
         query += f" ORDER BY {sort_column} {order_direction};"

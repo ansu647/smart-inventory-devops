@@ -139,13 +139,23 @@ def test_low_stock_detection(temp_db):
 
 def test_search_and_filter(temp_db):
     """Test search query, category filter and sorting."""
-    database.create_product("MacBook Air", "Computers", 999.0, 10, 2, db_path=temp_db)
-    database.create_product("MacBook Pro", "Computers", 1999.0, 5, 2, db_path=temp_db)
-    database.create_product("Wireless Headset", "Audio", 150.0, 15, 3, db_path=temp_db)
+    p1 = database.create_product("MacBook Air", "Computers", 999.0, 10, 2, db_path=temp_db)
+    p2 = database.create_product("MacBook Pro", "Computers", 1999.0, 5, 2, db_path=temp_db)
+    p3 = database.create_product("Wireless Headset", "Audio", 150.0, 15, 3, db_path=temp_db)
 
-    # Search
+    # Search by text
     results = database.get_all_products(db_path=temp_db, search="MacBook")
     assert len(results) == 2
+
+    # Search by ID
+    results_id = database.get_all_products(db_path=temp_db, search=str(p1))
+    assert len(results_id) == 1
+    assert results_id[0]['id'] == p1
+
+    # Search by ID with hash prefix (#)
+    results_hash = database.get_all_products(db_path=temp_db, search=f"#{p2}")
+    assert len(results_hash) == 1
+    assert results_hash[0]['id'] == p2
 
     # Category
     results_cat = database.get_all_products(db_path=temp_db, category="Audio")
