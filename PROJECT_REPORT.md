@@ -210,3 +210,4 @@ The **Smart Inventory Management System** successfully unifies full-stack web ap
 - Barcode and QR code scanning via mobile camera interface.
 - Automated email / Slack webhook alerts for depleted inventory.
 - Real-time stock notifications via WebSockets.
+

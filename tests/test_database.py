@@ -155,3 +155,4 @@ def test_search_and_filter(temp_db):
     # Sort
     results_sorted = database.get_all_products(db_path=temp_db, sort_by='price', sort_order='desc')
     assert results_sorted[0]['name'] == "MacBook Pro"
+

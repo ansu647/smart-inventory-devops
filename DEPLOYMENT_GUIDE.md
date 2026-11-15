@@ -10,12 +10,12 @@ This guide provides step-by-step instructions for provisioning AWS EC2, installi
 | Parameter | Setting | Reason |
 | :--- | :--- | :--- |
 | **Cloud Provider** | Amazon Web Services (AWS) | Primary host |
-| **Region** | `ap-south-1` (Mumbai) | Minimal latency for local operations |
-| **AMI** | Ubuntu Server 24.04 LTS (HVM), SSD Volume Type | Stable LTS support |
+| **Region** | `us-east-1` (N. Virginia) | Enabled lab environment region |
+| **AMI** | Ubuntu Server 24.04 LTS (HVM), SSD Volume Type (`ami-08b275ac6cc5dbefb`) | Stable LTS support |
 | **Architecture** | 64-bit (x86_64) | Standard compatibility for Jenkins & Docker |
 | **Instance Type** | `t3.medium` (2 vCPU, 4.0 GiB Memory) | Handles concurrent Jenkins builds & Docker runtime |
-| **Storage** | 50 GiB gp3 General Purpose SSD | Ample capacity for Docker layers and Jenkins workspace |
-| **Key Pair** | RSA SSH key pair (`.pem`) | Secure SSH administration |
+| **Storage** | 40 GiB gp3 General Purpose SSD | Ample capacity for Docker layers and Jenkins workspace |
+| **Key Pair** | RSA SSH key pair (`smart-inventory-key.pem`) | Secure SSH administration |
 
 ---
 
@@ -220,3 +220,4 @@ docker rm smart-inventory-app
 # Terminate EC2 instance via AWS CLI
 aws ec2 terminate-instances --instance-ids <INSTANCE_ID>
 ```
+

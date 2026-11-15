@@ -98,3 +98,4 @@ docker volume rm inventory_data_local_test
 ## 5. Security & Credentials Policy
 - `.gitignore` prevents inadvertent commits of virtual environments (`.venv/`), SQLite database files (`instance/*.db`), `.DS_Store`, and environment files (`.env`).
 - Never commit private keys, AWS access secrets, or personal access tokens to the repository.
+

@@ -151,3 +151,4 @@ def test_low_stock_route(client):
     html = response.data.decode('utf-8')
     assert "Low Stock Alerts" in html
     assert "Test Cable" in html
+

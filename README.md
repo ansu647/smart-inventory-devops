@@ -5,10 +5,10 @@
 
 ## LIVE APPLICATION
 
-- **Application URL**: [OPEN SMART INVENTORY APPLICATION](http://13.233.155.105/) *(or `http://<EC2_PUBLIC_IP>/`)*
-- **Status**: Automated CI/CD Pipeline Configured & Ready
+- **Application URL**: [OPEN SMART INVENTORY APPLICATION](http://54.90.251.219/)
+- **Status**: Live, Deployed & Verified on AWS EC2
 - **Repository**: [View Source Code](https://github.com/ansu647/smart-inventory-devops)
-- **CI/CD Automation**: [Jenkins Dashboard](http://13.233.155.105:8080/) *(Restricted Admin Port)*
+- **CI/CD Automation**: [Jenkins Dashboard](http://54.90.251.219:8080/job/Smart-Inventory-CICD/) *(Admin: `admin`)*
 
 ---
 
@@ -32,7 +32,7 @@ Jenkins LTS (AWS EC2 Ubuntu 24.04)
           └── Stage 5: Health Check Verification (GET /health -> HTTP 200)
           │
           ▼
-AWS EC2 Live Endpoint (http://<EC2_PUBLIC_IP>/)
+AWS EC2 Live Endpoint (http://54.90.251.219/)
 ```
 
 ---
@@ -48,7 +48,7 @@ AWS EC2 Live Endpoint (http://<EC2_PUBLIC_IP>/)
 | **Testing** | Pytest 8.2 & pytest-flask | 19 automated test cases covering routes, models, & constraints |
 | **Container** | Docker Engine 29.8 | Lightweight `python:3.12-slim` image, named volume persistence |
 | **CI/CD** | Jenkins LTS | Declarative pipeline with SCM polling, healthchecks, & auto-rollback |
-| **Cloud** | AWS EC2 (ap-south-1) | Ubuntu Server 24.04 LTS on `t3.medium` instance |
+| **Cloud** | AWS EC2 (us-east-1) | Ubuntu Server 24.04 LTS on `t3.medium` instance |
 
 ---
 
@@ -71,7 +71,7 @@ AWS EC2 Live Endpoint (http://<EC2_PUBLIC_IP>/)
 To present this DevOps project to faculty, follow this step-by-step walkthrough:
 
 1. **Live Application Navigation**:
-   - Open the live URL: `http://<EC2_PUBLIC_IP>/` in any external browser.
+   - Open the live URL: `http://54.90.251.219/` in any external browser.
    - Demonstrate the responsive sidebar, top navigation, and live system status pill.
 2. **Review Dashboard Statistics**:
    - Point out real-time aggregated metrics: Total Products, Available Units, Low Stock Alerts, and Inventory Valuation.
@@ -94,7 +94,7 @@ To present this DevOps project to faculty, follow this step-by-step walkthrough:
    - On the workstation terminal, make a slight visual update (e.g., in a template).
    - Run `git commit -am "chore: trigger CI/CD pipeline update"` and `git push origin main`.
 8. **Demonstrate Jenkins Pipeline Execution**:
-   - Open Jenkins (`http://<EC2_PUBLIC_IP>:8080/job/Smart-Inventory-CICD`).
+   - Open Jenkins (`http://54.90.251.219:8080/job/Smart-Inventory-CICD/`).
    - Show Jenkins detecting the push via SCM polling (`H/2 * * * *`).
    - Show all 5 pipeline stages completing with green checkmarks:
      - Stage 1: Checkout Source
@@ -103,7 +103,7 @@ To present this DevOps project to faculty, follow this step-by-step walkthrough:
      - Stage 4: Container Deployment
      - Stage 5: Health Check Verification (`/health` HTTP 200)
 9. **Verify Zero-Downtime Live Update**:
-   - Refresh the public URL `http://<EC2_PUBLIC_IP>/`. Show the newly deployed version.
+   - Refresh the public URL `http://54.90.251.219/`. Show the newly deployed version.
 10. **Demonstrate SQLite Database Persistence**:
     - On the EC2 terminal, run `docker restart smart-inventory-app` (or remove and recreate the container).
     - Refresh the browser: show that all products, transactions, and stock history remain completely intact due to the Docker named volume mount (`inventory_data:/data`).
@@ -170,3 +170,4 @@ curl -i http://localhost/health
 
 ## 📄 License
 This project is open-source under the MIT License. Developed for academic and demonstration purposes.
+
