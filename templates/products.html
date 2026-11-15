@@ -88,7 +88,7 @@
                         <th class="ps-3" style="width: 70px;">ID</th>
                         <th>Product Name</th>
                         <th>Category</th>
-                        <th>Price</th>
+                        <th>Price (₹)</th>
                         <th>Stock Available</th>
                         <th>Min. Threshold</th>
                         <th>Added Date</th>
@@ -105,7 +105,7 @@
                         <td>
                             <span class="badge bg-secondary-subtle text-secondary">{{ p.category }}</span>
                         </td>
-                        <td class="fw-semibold text-dark">${{ "%.2f"|format(p.price) }}</td>
+                        <td class="fw-semibold text-dark currency-inr">₹{{ "%.2f"|format(p.price) }}</td>
                         <td>
                             {% if p.quantity == 0 %}
                                 <span class="badge bg-danger px-2 py-1"><i class="bi bi-x-circle me-1"></i> Out of Stock</span>

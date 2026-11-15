@@ -88,16 +88,16 @@ def seed_sample_data(db_path=None):
         count = cursor.fetchone()['count']
         if count == 0:
             sample_products = [
-                ("MacBook Pro M3", "Electronics", 1999.99, 15, 5),
-                ("Dell UltraSharp 27 Monitor", "Electronics", 450.00, 8, 3),
-                ("Logitech MX Master 3S Mouse", "Accessories", 99.99, 25, 10),
-                ("Keychron K2 Mechanical Keyboard", "Accessories", 89.99, 4, 6),  # Low stock
-                ("Ergonomic Mesh Office Chair", "Furniture", 299.50, 6, 2),
-                ("Height-Adjustable Standing Desk", "Furniture", 499.00, 2, 4),    # Low stock
-                ("USB-C Multiport Hub", "Accessories", 49.99, 30, 8),
-                ("Noise-Cancelling Headphones", "Audio", 249.99, 0, 5),             # Out of stock
-                ("4K Ultra HD Webcam", "Electronics", 129.99, 12, 4),
-                ("Cat-6 Ethernet Cable (10m)", "Networking", 14.99, 50, 15),
+                ("Apple MacBook Pro M3", "Electronics", 169900.00, 15, 5),
+                ("Dell UltraSharp 27 4K Monitor", "Electronics", 42500.00, 8, 3),
+                ("Logitech MX Master 3S Mouse", "Accessories", 8995.00, 25, 10),
+                ("Keychron K2 Mechanical Keyboard", "Accessories", 7499.00, 4, 6),  # Low stock
+                ("Ergonomic Mesh Executive Chair", "Furniture", 18500.00, 6, 2),
+                ("Motorized Height-Adjustable Desk", "Furniture", 34999.00, 2, 4),    # Low stock
+                ("Anker USB-C 10-in-1 Power Hub", "Accessories", 4999.00, 30, 8),
+                ("Sony WH-1000XM5 Wireless Headphones", "Audio", 26990.00, 0, 5),     # Out of stock
+                ("Logitech Brio 4K Ultra Webcam", "Electronics", 14500.00, 12, 4),
+                ("D-Link Cat-6 High Speed Cable (10m)", "Networking", 899.00, 50, 15),
             ]
             with conn:
                 for item in sample_products:

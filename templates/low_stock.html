@@ -66,7 +66,7 @@
                         <td class="ps-3 fw-bold text-muted">#{{ item.id }}</td>
                         <td>
                             <span class="fw-semibold text-dark">{{ item.name }}</span>
-                            <div class="text-muted fs-8">${{ "%.2f"|format(item.price) }} / unit</div>
+                            <div class="text-muted fs-8 currency-inr">₹{{ "%.2f"|format(item.price) }} / unit</div>
                         </td>
                         <td>
                             <span class="badge bg-secondary-subtle text-secondary">{{ item.category }}</span>

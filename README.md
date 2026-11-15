@@ -1,12 +1,13 @@
-# Smart Inventory Management System
-> A Flask-based inventory management application deployed through an automated Jenkins CI/CD pipeline on AWS EC2 using Git and Docker.
+# NexStock Enterprise | Smart Cloud Inventory Management System
+> An enterprise-grade, Flask-based inventory management platform deployed through an automated Jenkins CI/CD pipeline on AWS EC2 using Git and Docker with full Indian Rupee (₹) currency support.
 
 ---
 
 ## LIVE APPLICATION
 
-- **Application URL**: [OPEN SMART INVENTORY APPLICATION](http://54.90.251.219/)
+- **Application URL**: [OPEN NEXSTOCK APPLICATION](http://54.90.251.219/)
 - **Status**: Live, Deployed & Verified on AWS EC2
+- **Currency**: Indian Rupee (INR ₹)
 - **Repository**: [View Source Code](https://github.com/ansu647/smart-inventory-devops)
 - **CI/CD Automation**: [Jenkins Dashboard](http://54.90.251.219:8080/job/Smart-Inventory-CICD/) *(Admin: `admin`)*
 

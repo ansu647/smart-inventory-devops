@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard | Smart Inventory System{% endblock %}
+{% block title %}Dashboard | NexStock Enterprise{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-3 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-3 mb-4 border-bottom">
     <div>
-        <h1 class="h2 fw-bold text-dark mb-1">Inventory Dashboard</h1>
-        <p class="text-muted small mb-0">Real-time metrics, stock telemetry, and inventory valuation.</p>
+        <h1 class="h3 fw-bold text-dark mb-1">Executive Inventory Dashboard</h1>
+        <p class="text-muted small mb-0">Live inventory analytics, stock valuation in INR (₹), and automated pipeline telemetry.</p>
     </div>
     <div class="btn-toolbar mb-2 mb-md-0 gap-2">
         <a href="{{ url_for('add_product') }}" class="btn btn-primary btn-sm d-flex align-items-center shadow-sm">
@@ -22,13 +22,13 @@
 <div class="row g-3 mb-4">
     <!-- Total Products -->
     <div class="col-sm-6 col-xl-3">
-        <div class="card metric-card border-0 shadow-sm h-100">
+        <div class="card metric-card card-primary border-0 shadow-sm h-100">
             <div class="card-body d-flex align-items-center">
-                <div class="metric-icon bg-primary-subtle text-primary rounded-3 p-3 me-3">
-                    <i class="bi bi-box-seam fs-3"></i>
+                <div class="metric-icon bg-primary-subtle text-primary me-3">
+                    <i class="bi bi-box-seam-fill fs-3"></i>
                 </div>
                 <div>
-                    <span class="text-uppercase text-muted fw-semibold fs-8">Total Products</span>
+                    <span class="text-uppercase text-muted fw-semibold fs-8 tracking-wider">Total Products</span>
                     <h3 class="fw-bold mb-0 mt-1">{{ stats.total_products }}</h3>
                     <small class="text-secondary fs-8">Active inventory catalog</small>
                 </div>
@@ -38,13 +38,13 @@
 
     <!-- Total Stock Units -->
     <div class="col-sm-6 col-xl-3">
-        <div class="card metric-card border-0 shadow-sm h-100">
+        <div class="card metric-card card-success border-0 shadow-sm h-100">
             <div class="card-body d-flex align-items-center">
-                <div class="metric-icon bg-success-subtle text-success rounded-3 p-3 me-3">
+                <div class="metric-icon bg-success-subtle text-success me-3">
                     <i class="bi bi-stack fs-3"></i>
                 </div>
                 <div>
-                    <span class="text-uppercase text-muted fw-semibold fs-8">Available Units</span>
+                    <span class="text-uppercase text-muted fw-semibold fs-8 tracking-wider">Available Units</span>
                     <h3 class="fw-bold mb-0 mt-1">{{ stats.total_stock }}</h3>
                     <small class="text-secondary fs-8">Total units across items</small>
                 </div>
@@ -54,34 +54,34 @@
 
     <!-- Low Stock Alert -->
     <div class="col-sm-6 col-xl-3">
-        <div class="card metric-card border-0 shadow-sm h-100">
+        <div class="card metric-card card-danger border-0 shadow-sm h-100">
             <div class="card-body d-flex align-items-center">
-                <div class="metric-icon {% if stats.low_stock_count > 0 %}bg-danger-subtle text-danger{% else %}bg-secondary-subtle text-secondary{% endif %} rounded-3 p-3 me-3">
-                    <i class="bi bi-exclamation-triangle fs-3"></i>
+                <div class="metric-icon {% if stats.low_stock_count > 0 %}bg-danger-subtle text-danger{% else %}bg-secondary-subtle text-secondary{% endif %} me-3">
+                    <i class="bi bi-exclamation-triangle-fill fs-3"></i>
                 </div>
                 <div>
-                    <span class="text-uppercase text-muted fw-semibold fs-8">Low Stock Alerts</span>
+                    <span class="text-uppercase text-muted fw-semibold fs-8 tracking-wider">Low Stock Alerts</span>
                     <h3 class="fw-bold mb-0 mt-1 {% if stats.low_stock_count > 0 %}text-danger{% endif %}">{{ stats.low_stock_count }}</h3>
                     {% if stats.low_stock_count > 0 %}
                         <a href="{{ url_for('low_stock') }}" class="text-danger fs-8 fw-semibold text-decoration-none">Review alert items &rarr;</a>
                     {% else %}
-                        <small class="text-success fs-8">Inventory healthy</small>
+                        <small class="text-success fs-8">Inventory optimal</small>
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Inventory Valuation -->
+    <!-- Inventory Valuation in INR (₹) -->
     <div class="col-sm-6 col-xl-3">
-        <div class="card metric-card border-0 shadow-sm h-100">
+        <div class="card metric-card card-info border-0 shadow-sm h-100">
             <div class="card-body d-flex align-items-center">
-                <div class="metric-icon bg-info-subtle text-info rounded-3 p-3 me-3">
-                    <i class="bi bi-currency-dollar fs-3"></i>
+                <div class="metric-icon bg-info-subtle text-info me-3">
+                    <i class="bi bi-currency-rupee fs-3"></i>
                 </div>
                 <div>
-                    <span class="text-uppercase text-muted fw-semibold fs-8">Total Valuation</span>
-                    <h3 class="fw-bold mb-0 mt-1">${{ "{:,.2f}".format(stats.total_value) }}</h3>
+                    <span class="text-uppercase text-muted fw-semibold fs-8 tracking-wider">Total Valuation</span>
+                    <h3 class="fw-bold mb-0 mt-1 currency-inr">₹{{ "{:,.2f}".format(stats.total_value) }}</h3>
                     <small class="text-secondary fs-8">Across {{ stats.total_categories }} categories</small>
                 </div>
             </div>
@@ -104,11 +104,11 @@
                 {% if stats.recent_products %}
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light fs-8 text-uppercase">
+                        <thead>
                             <tr>
                                 <th class="ps-3">Product</th>
                                 <th>Category</th>
-                                <th>Price</th>
+                                <th>Unit Price</th>
                                 <th>Stock</th>
                                 <th class="text-end pe-3">Action</th>
                             </tr>
@@ -118,12 +118,12 @@
                             <tr>
                                 <td class="ps-3">
                                     <div class="fw-semibold text-dark">{{ product.name }}</div>
-                                    <div class="text-muted fs-8">ID: #{{ product.id }}</div>
+                                    <div class="text-muted fs-8">SKU #{{ product.id }}</div>
                                 </td>
                                 <td>
                                     <span class="badge bg-secondary-subtle text-secondary">{{ product.category }}</span>
                                 </td>
-                                <td class="fw-semibold">${{ "%.2f"|format(product.price) }}</td>
+                                <td class="fw-semibold text-dark currency-inr">₹{{ "%.2f"|format(product.price) }}</td>
                                 <td>
                                     {% if product.quantity == 0 %}
                                         <span class="badge bg-danger">Out of Stock</span>
@@ -134,7 +134,7 @@
                                     {% endif %}
                                 </td>
                                 <td class="text-end pe-3">
-                                    <a href="{{ url_for('edit_product', product_id=product.id) }}" class="btn btn-sm btn-outline-secondary py-0 px-2" title="Edit">
+                                    <a href="{{ url_for('edit_product', product_id=product.id) }}" class="btn btn-sm btn-outline-secondary py-1 px-2" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                 </td>
@@ -156,11 +156,11 @@
 
     <!-- Category Breakdown & Recent Activity -->
     <div class="col-lg-5">
-        <!-- Category Inventory Breakdown -->
+        <!-- Category Inventory Breakdown in INR -->
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-white py-3 border-bottom">
                 <h5 class="card-title fw-bold mb-0 text-dark">
-                    <i class="bi bi-pie-chart me-2 text-info"></i> Category Summary
+                    <i class="bi bi-pie-chart-fill me-2 text-info"></i> Category Breakdown (INR)
                 </h5>
             </div>
             <div class="card-body p-0">
@@ -170,7 +170,7 @@
                     <li class="list-group-item d-flex justify-content-between align-items-center py-3">
                         <div>
                             <div class="fw-semibold text-dark">{{ cat.category }}</div>
-                            <small class="text-muted fs-8">{{ cat.count }} items &bull; ${{ "{:,.2f}".format(cat.cat_value) }}</small>
+                            <small class="text-muted fs-8">{{ cat.count }} items &bull; ₹{{ "{:,.2f}".format(cat.cat_value) }}</small>
                         </div>
                         <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fw-bold">
                             {{ cat.total_qty }} units
@@ -190,7 +190,7 @@
                 <h5 class="card-title fw-bold mb-0 text-dark">
                     <i class="bi bi-activity me-2 text-warning"></i> Stock Movements
                 </h5>
-                <a href="{{ url_for('stock') }}" class="btn btn-sm btn-link text-decoration-none">Log &rarr;</a>
+                <a href="{{ url_for('stock') }}" class="btn btn-sm btn-link text-decoration-none">Full Log &rarr;</a>
             </div>
             <div class="card-body p-0">
                 {% if recent_transactions %}
@@ -224,4 +224,3 @@
     </div>
 </div>
 {% endblock %}
-

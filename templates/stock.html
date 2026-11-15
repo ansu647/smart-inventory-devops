@@ -33,7 +33,7 @@
                             <option value="" disabled selected>-- Select a Product --</option>
                             {% for p in products %}
                             <option value="{{ p.id }}" data-stock="{{ p.quantity }}">
-                                {{ p.name }} (Current: {{ p.quantity }} units &bull; ${{ "%.2f"|format(p.price) }})
+                                {{ p.name }} (Current: {{ p.quantity }} units &bull; ₹{{ "%.2f"|format(p.price) }})
                             </option>
                             {% endfor %}
                         </select>
