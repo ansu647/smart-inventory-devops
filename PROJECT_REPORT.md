@@ -51,7 +51,7 @@ Organizations handling physical assets require an intuitive administrative inter
 +-----------------------------------------------------------------------------------+
 |                            DEVELOPER ENVIRONMENT (M3 MAC)                         |
 |  - Python 3.12 Virtual Environment (.venv)                                        |
-|  - Local Pytest Execution (19/19 Passing)                                         |
+|  - Local Pytest Execution (20/20 Passing)                                         |
 |  - Git Commit & Push                                                              |
 +------------------------------------------+----------------------------------------+
                                            | git push origin main
@@ -61,7 +61,8 @@ Organizations handling physical assets require an intuitive administrative inter
 |  - URL: https://github.com/ansu647/smart-inventory-devops                        |
 |  - Source Code, Dockerfile, Jenkinsfile, Automated Tests                          |
 +------------------------------------------+----------------------------------------+
-                                           | SCM Polling (H/2 * * * *)
+                                           | [Webhook POST] /github-webhook/
+                                           | [SCM Polling] H/2 * * * *
                                            v
 +-----------------------------------------------------------------------------------+
 |                             AWS EC2 CLOUD HOST (UBUNTU)                           |
@@ -69,9 +70,9 @@ Organizations handling physical assets require an intuitive administrative inter
 |  +-----------------------------------------------------------------------------+  |
 |  |                             JENKINS CI/CD SERVER                            |  |
 |  |  Stage 1: Checkout Source Code from GitHub                                  |  |
-|  |  Stage 2: Setup Test Environment & Run 19 Pytests                           |  |
+|  |  Stage 2: Setup Test Environment & Run 20 Pytests                           |  |
 |  |  Stage 3: Build Docker Image (smart-inventory:${BUILD_NUMBER})              |  |
-|  |  Stage 4: Deploy Container with Persistent Volume Mount                     |  |
+|  |  Stage 4: Deploy Container with Persistent Volume Mount (`inventory_data`)   |  |
 |  |  Stage 5: Health Check Verification (GET /health -> HTTP 200)                |  |
 |  +-------------------------------------+---------------------------------------+  |
 |                                        | Deploy / Run                             |
@@ -88,7 +89,7 @@ Organizations handling physical assets require an intuitive administrative inter
                                          v
 +-----------------------------------------------------------------------------------+
 |                               END USER / BROWSER                                  |
-|  Public URL: http://<EC2_PUBLIC_IP>/                                              |
+|  Public Live URL: http://54.90.251.219/                                           |
 +-----------------------------------------------------------------------------------+
 ```
 
@@ -170,9 +171,9 @@ In containerized environments, container storage is ephemeral. To guarantee data
 Automated testing is integrated directly into the CI/CD pipeline using **Pytest**. Tests run against isolated, temporary SQLite instances to eliminate side-effects.
 
 ### Test Results Summary
-- Total Tests: **19**
-- Passing: **19 (100%)**
-- Execution Duration: **0.21 seconds**
+- Total Tests: **20**
+- Passing: **20 (100%)**
+- Execution Duration: **0.24 seconds**
 
 | Test Module | Test Case | Target Feature | Result |
 | :--- | :--- | :--- | :--- |
@@ -187,6 +188,7 @@ Automated testing is integrated directly into the CI/CD pipeline using **Pytest*
 | `test_database.py` | `test_low_stock_detection` | Threshold alert logic | Passed |
 | `test_database.py` | `test_search_and_filter` | Query and sorting logic | Passed |
 | `test_app.py` | `test_health_check` | HTTP `/health` response | Passed |
+| `test_app.py` | `test_security_headers` | Production HTTP security headers | Passed |
 | `test_app.py` | `test_dashboard_route` | UI metrics rendering | Passed |
 | `test_app.py` | `test_products_list_and_search` | HTTP query parameters | Passed |
 | `test_app.py` | `test_add_product_route` | Form POST processing | Passed |

@@ -72,7 +72,7 @@ Run the test suite inside the virtual environment:
 ```bash
 .venv/bin/pytest -v
 ```
-**Result**: 19 out of 19 tests passed (100% pass rate) testing application routes, database constraints, negative stock prevention, search/filtering, and the `/health` endpoint.
+**Result**: 20 out of 20 tests passed (100% pass rate) testing application routes, database constraints, negative stock prevention, security headers, search/filtering, and the `/health` endpoint.
 
 ### Local Docker Build & Persistence Test
 The container was built and validated on Apple Silicon:

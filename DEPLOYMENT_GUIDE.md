@@ -80,17 +80,18 @@ docker --version
 
 ## 5. Jenkins LTS & Java Installation on EC2
 
-Jenkins LTS requires OpenJDK 17 or 21:
+Jenkins LTS requires OpenJDK 21+:
 ```bash
-# Install OpenJDK 17
-sudo apt-get install -y openjdk-17-jdk openjdk-17-jre
+# Install OpenJDK 21
+sudo apt-get install -y openjdk-21-jdk openjdk-21-jre
 java -version
 
-# Add Jenkins repository keyring
-sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
-  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+# Add Jenkins repository keyring (2026/stable)
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
 
-echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc] \
   https://pkg.jenkins.io/debian-stable binary/" | sudo tee \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
 
@@ -140,8 +141,8 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 2. Enter Item Name: `Smart-Inventory-CICD`
 3. Select **Pipeline** and click **OK**.
 4. In the Job Configuration:
-   - Check **Poll SCM** under Build Triggers.
-   - Schedule: `H/2 * * * *` (polls GitHub every 2 minutes for new commits).
+   - Check **GitHub hook trigger for GITScm polling** (enables real-time push builds via `/github-webhook/`).
+   - Check **Poll SCM** under Build Triggers as a fallback: Schedule: `H/2 * * * *`.
 5. In the **Pipeline** definition section:
    - Definition: **Pipeline script from SCM**
    - SCM: **Git**
@@ -154,10 +155,10 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 ## 8. Pipeline Execution & Continuous Deployment
 
-1. Click **Build Now** to execute the initial build.
+1. The pipeline automatically triggers upon code push to `main` (or click **Build Now**).
 2. The pipeline executes 5 stages:
    - **Stage 1 (Checkout Source)**: Clones the latest commit from the `main` branch.
-   - **Stage 2 (Environment & Unit Tests)**: Prepares a virtual environment, installs dependencies, and executes all 19 Pytest cases.
+   - **Stage 2 (Environment & Unit Tests)**: Prepares an isolated virtual environment, installs dependencies, and executes all 20 Pytest cases.
    - **Stage 3 (Build Docker Image)**: Builds the production image with `smart-inventory:${BUILD_NUMBER}`.
    - **Stage 4 (Deploy Application)**: 
      - Creates/maintains the persistent named volume `inventory_data`.

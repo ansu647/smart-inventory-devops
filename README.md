@@ -51,7 +51,7 @@ AWS EC2 Live Public Endpoint (http://54.90.251.219/)
 | **Database** | SQLite 3 | Embedded, ACID transactions, foreign keys enabled |
 | **App Server** | Gunicorn 22.0 | Multi-worker WSGI HTTP server binding to `0.0.0.0:5000` |
 | **Frontend** | HTML5, CSS3, Bootstrap 5.3, JS | Responsive enterprise dashboard, real-time KPI cards |
-| **Testing** | Pytest 8.2 & pytest-flask | 19 automated test cases covering routes, models, & constraints |
+| **Testing** | Pytest 8.2 & pytest-flask | 20 automated test cases covering routes, security headers, models, & constraints |
 | **Container** | Docker Engine 29.8 | Lightweight `python:3.12-slim` image, named volume persistence |
 | **CI/CD** | Jenkins LTS | Declarative pipeline with SCM polling, healthchecks, & auto-rollback |
 | **Cloud** | AWS EC2 (us-east-1) | Ubuntu Server 24.04 LTS on `t3.medium` instance |
