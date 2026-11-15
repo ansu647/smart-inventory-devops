@@ -3,17 +3,6 @@
 
 ---
 
-## 🌐 Quick Access & Verified Live Links
-
-| Resource | Public Access Link | Protocol / Port | Real-Time Sync Status |
-| :--- | :--- | :--- | :--- |
-| **🚀 Production Live Application** | **[http://54.90.251.219/](http://54.90.251.219/)** | HTTP : 80 | **Active & Live** |
-| **🩺 Healthcheck & Probe Endpoint** | **[http://54.90.251.219/health](http://54.90.251.219/health)** | HTTP : 80 | **HTTP 200 (Healthy)** |
-| **⚙️ Jenkins CI/CD Dashboard** | **[http://54.90.251.219:8080/job/Smart-Inventory-CICD/](http://54.90.251.219:8080/job/Smart-Inventory-CICD/)** | HTTP : 8080 | **Active (Private Admin Access)** |
-| **🔄 Real-Time GitHub Webhook** | `http://54.90.251.219:8080/github-webhook/` | POST / 8080 | **Connected (Triggers build on push)** |
-
----
-
 ## 📌 Executive Summary & Architecture
 
 The **Smart Inventory Management System (NexStock)** is a production-grade, administrative web platform designed to monitor physical inventory, track stock movements, enforce zero-deficit inventory policies, and alert teams to low stock in real time with Indian Rupee (₹) pricing.
@@ -147,6 +136,17 @@ curl -i http://localhost/health
 - [Workstation Environment Setup (ENVIRONMENT_SETUP.md)](ENVIRONMENT_SETUP.md)
 - [AWS EC2 & Jenkins Pipeline Guide (DEPLOYMENT_GUIDE.md)](DEPLOYMENT_GUIDE.md)
 - [Comprehensive Academic Report (PROJECT_REPORT.md)](PROJECT_REPORT.md)
+
+---
+
+## 🌐 Quick Access & Verified Live Links
+
+| Resource | Public Access Link | Protocol / Port | Real-Time Sync Status |
+| :--- | :--- | :--- | :--- |
+| **🚀 Production Live Application** | **[http://54.90.251.219/](http://54.90.251.219/)** | HTTP : 80 | **Active & Live** |
+| **🩺 Healthcheck & Probe Endpoint** | **[http://54.90.251.219/health](http://54.90.251.219/health)** | HTTP : 80 | **HTTP 200 (Healthy)** |
+| **⚙️ Jenkins CI/CD Dashboard** | **[http://54.90.251.219:8080/job/Smart-Inventory-CICD/](http://54.90.251.219:8080/job/Smart-Inventory-CICD/)** | HTTP : 8080 | **Active (Private Admin Access)** |
+| **🔄 Real-Time GitHub Webhook** | `http://54.90.251.219:8080/github-webhook/` | POST / 8080 | **Connected (Triggers build on push)** |
 
 ---
 
