@@ -26,7 +26,7 @@ Jenkins LTS (AWS EC2 Ubuntu 24.04)
           └── Stage 5: Health Check Verification (GET /health -> HTTP 200)
           │
           ▼
-AWS EC2 Live Public Endpoint (http://54.83.66.98/)
+AWS EC2 Live Public Endpoint (http://54.87.5.184/)
 ```
 
 ---
@@ -77,7 +77,7 @@ A comprehensive security and repository cleanliness audit has been conducted to 
    - Production headers (`X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `X-XSS-Protection: 1; mode=block`) are injected on every response.
 5. **Isolated Container Execution**:
    - Application runs containerized behind Gunicorn WSGI server with designated non-root volumes.
-   - Only the public application URL (`http://54.83.66.98/`) is exposed on standard HTTP port 80.
+   - Only the public application URL (`http://54.87.5.184/`) is exposed on standard HTTP port 80.
 
 ---
 
@@ -143,10 +143,10 @@ curl -i http://localhost/health
 
 | Resource | Public Access Link | Protocol / Port | Real-Time Sync Status |
 | :--- | :--- | :--- | :--- |
-| **🚀 Production Live Application** | **[http://54.83.66.98/](http://54.83.66.98/)** | HTTP : 80 | **Active & Live** |
-| **🩺 Healthcheck & Probe Endpoint** | **[http://54.83.66.98/health](http://54.83.66.98/health)** | HTTP : 80 | **HTTP 200 (Healthy)** |
-| **⚙️ Jenkins CI/CD Dashboard** | **[http://54.83.66.98:8080/job/Smart-Inventory-CICD/](http://54.83.66.98:8080/job/Smart-Inventory-CICD/)** | HTTP : 8080 | **Active (Private Admin Access)** |
-| **🔄 Real-Time GitHub Webhook** | `http://54.83.66.98:8080/github-webhook/` | POST / 8080 | **Connected (Triggers build on push)** |
+| **🚀 Production Live Application** | **[http://54.87.5.184/](http://54.87.5.184/)** | HTTP : 80 | **Active & Live** |
+| **🩺 Healthcheck & Probe Endpoint** | **[http://54.87.5.184/health](http://54.87.5.184/health)** | HTTP : 80 | **HTTP 200 (Healthy)** |
+| **⚙️ Jenkins CI/CD Dashboard** | **[http://54.87.5.184:8080/job/Smart-Inventory-CICD/](http://54.87.5.184:8080/job/Smart-Inventory-CICD/)** | HTTP : 8080 | **Active (Private Admin Access)** |
+| **🔄 Real-Time GitHub Webhook** | `http://54.87.5.184:8080/github-webhook/` | POST / 8080 | **Connected (Triggers build on push)** |
 | **📦 GitHub Source Repository** | **[https://github.com/ansu647/smart-inventory-devops](https://github.com/ansu647/smart-inventory-devops)** | HTTPS / 443 | **Tracked `main` branch** |
 
 ---

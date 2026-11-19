@@ -89,7 +89,7 @@ Organizations handling physical assets require an intuitive administrative inter
                                          v
 +-----------------------------------------------------------------------------------+
 |                               END USER / BROWSER                                  |
-|  Public Live URL: http://54.83.66.98/                                            |
+|  Public Live URL: http://54.87.5.184/                                            |
 +-----------------------------------------------------------------------------------+
 ```
 
